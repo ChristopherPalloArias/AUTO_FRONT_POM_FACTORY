@@ -36,20 +36,21 @@ public class TransactionPage extends PageObject {
     public void clickNewTransaction() {
         newTransactionButton.click();
         transactionModalTitle.waitUntilVisible();
+        waitABit(1000);
     }
 
     public void selectIncomeType() {
         waitFor(typeSelectTrigger).waitUntilPresent();
         evaluateJavascript("arguments[0].click();", typeSelectTrigger);
         incomeOption.waitUntilVisible().click();
-        waitABit(600);
+        waitABit(800);
     }
 
     public void selectSalaryCategory() {
         waitFor(categorySelectTrigger).waitUntilPresent();
         evaluateJavascript("arguments[0].click();", categorySelectTrigger);
         salaryCategoryOption.waitUntilVisible().click();
-        waitABit(600);
+        waitABit(800);
     }
 
     public void enterDescription(String description) {
@@ -62,5 +63,6 @@ public class TransactionPage extends PageObject {
 
     public void clickCreateTransaction() {
         createTransactionButton.click();
+        waitABit(1500);
     }
 }

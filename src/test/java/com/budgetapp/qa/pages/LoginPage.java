@@ -29,6 +29,7 @@ public class LoginPage extends PageObject {
     }
 
     public void clickLogin() {
+        waitABit(1500);
         loginButton.click();
     }
 
