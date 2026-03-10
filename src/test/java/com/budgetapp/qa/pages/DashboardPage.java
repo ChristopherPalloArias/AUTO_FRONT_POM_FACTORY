@@ -15,11 +15,22 @@ public class DashboardPage extends PageObject {
     @FindBy(xpath = "//a[contains(@href, '/transactions')]")
     private WebElementFacade transactionsMenuLink;
 
+    @FindBy(xpath = "//a[contains(@href, '/dashboard')]")
+    private WebElementFacade dashboardMenuLink;
+
     public boolean isReportsHeadingVisible() {
+        waitFor(reportsHeading).waitUntilVisible();
         return reportsHeading.isVisible();
     }
 
+    public void navigateToDashboard() {
+        dashboardMenuLink.click();
+        waitFor(reportsHeading).waitUntilVisible();
+    }
+
     public String getTotalIncomeText() {
+        waitABit(2000);
+        waitFor(totalIncomeValue).waitUntilVisible();
         return totalIncomeValue.getText();
     }
 

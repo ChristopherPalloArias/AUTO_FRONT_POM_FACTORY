@@ -12,11 +12,17 @@ public class TransactionPage extends PageObject {
     @FindBy(xpath = "//h2[text()='Nueva Transacción']")
     private WebElementFacade transactionModalTitle;
 
-    @FindBy(xpath = "//button[@role='combobox'][ancestor::*[.//label[text()='Tipo']]]")
+    @FindBy(xpath = "(//div[@role='dialog']//button[@role='combobox'])[1]")
     private WebElementFacade typeSelectTrigger;
 
-    @FindBy(xpath = "//div[@role='option'][.='Ingreso']")
+    @FindBy(xpath = "//div[@role='option'][normalize-space()='Ingreso']")
     private WebElementFacade incomeOption;
+
+    @FindBy(xpath = "(//div[@role='dialog']//button[@role='combobox'])[2]")
+    private WebElementFacade categorySelectTrigger;
+
+    @FindBy(xpath = "//div[@role='option'][normalize-space()='Salario']")
+    private WebElementFacade salaryCategoryOption;
 
     @FindBy(css = "input[placeholder='Ej: Supermercado']")
     private WebElementFacade descriptionInput;
@@ -33,8 +39,17 @@ public class TransactionPage extends PageObject {
     }
 
     public void selectIncomeType() {
-        typeSelectTrigger.click();
+        waitFor(typeSelectTrigger).waitUntilPresent();
+        evaluateJavascript("arguments[0].click();", typeSelectTrigger);
         incomeOption.waitUntilVisible().click();
+        waitABit(600);
+    }
+
+    public void selectSalaryCategory() {
+        waitFor(categorySelectTrigger).waitUntilPresent();
+        evaluateJavascript("arguments[0].click();", categorySelectTrigger);
+        salaryCategoryOption.waitUntilVisible().click();
+        waitABit(600);
     }
 
     public void enterDescription(String description) {

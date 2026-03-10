@@ -17,7 +17,7 @@ public class TransactionManagementStepDefinitions {
 
     @Dado("que el usuario inicia sesion exitosamente en la aplicacion")
     public void theUserSuccessfullyLogsIntoTheApplication() {
-        authSteps.loginAs("admin@budget.com", "password123");
+        authSteps.loginAs("tester@test.com", "Password123!");
         authSteps.verifyLoginSuccess();
     }
 
