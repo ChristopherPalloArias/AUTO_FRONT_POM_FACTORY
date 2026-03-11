@@ -1,16 +1,19 @@
 package com.budgetapp.qa.pages;
 
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-import org.openqa.selenium.support.FindBy;
 
 public class DashboardPage extends PageObject {
 
     @FindBy(xpath = "//h2[contains(text(),'Reportes Financieros')]")
     private WebElementFacade reportsHeading;
 
-    @FindBy(xpath = "//p[normalize-space()='Ingresos del período']/preceding-sibling::div[contains(@class,'text-green')]")
-    private WebElementFacade totalIncomeValue;
+    @FindBy(xpath = "//div[text()='Balance Total']/parent::div/following-sibling::div/div")
+    private WebElementFacade balanceValue;
+
+    @FindBy(xpath = "//button[contains(.,'Consultar Reportes')]")
+    private WebElementFacade generateReportsButton;
 
     @FindBy(xpath = "//a[contains(@href, '/transactions')]")
     private WebElementFacade transactionsMenuLink;
@@ -19,22 +22,24 @@ public class DashboardPage extends PageObject {
     private WebElementFacade dashboardMenuLink;
 
     public boolean isReportsHeadingVisible() {
-        waitFor(reportsHeading).waitUntilVisible();
-        return reportsHeading.isVisible();
+        return reportsHeading.waitUntilVisible().isVisible();
+    }
+
+    public void clickGenerateReports() {
+        generateReportsButton.waitUntilVisible().click();
+        balanceValue.waitUntilVisible();
+    }
+
+    public String getBalanceValue() {
+        return balanceValue.waitUntilVisible().getText();
+    }
+
+    public void navigateToTransactions() {
+        transactionsMenuLink.waitUntilClickable().click();
     }
 
     public void navigateToDashboard() {
-        dashboardMenuLink.click();
-        waitFor(reportsHeading).waitUntilVisible();
-    }
-
-    public String getTotalIncomeText() {
-        waitABit(2000);
-        waitFor(totalIncomeValue).waitUntilVisible();
-        return totalIncomeValue.getText();
-    }
-
-    public void clickTransactionsMenu() {
-        transactionsMenuLink.click();
+        dashboardMenuLink.waitUntilClickable().click();
+        reportsHeading.waitUntilVisible();
     }
 }

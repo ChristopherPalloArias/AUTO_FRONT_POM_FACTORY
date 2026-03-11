@@ -4,29 +4,43 @@ import com.budgetapp.qa.pages.DashboardPage;
 import com.budgetapp.qa.pages.TransactionPage;
 import net.serenitybdd.annotations.Step;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class TransactionSteps {
 
-    DashboardPage dashboardPage;
-    TransactionPage transactionPage;
+    private DashboardPage dashboardPage;
+    private TransactionPage transactionPage;
 
-    @Step("User registers income: {0} for amount {1}")
-    public void registerIncome(String description, String amount) {
-        dashboardPage.clickTransactionsMenu();
+    @Step("Navigate to transactions list")
+    public void navigateToTransactions() {
+        dashboardPage.navigateToTransactions();
+    }
+
+    @Step("Register a new income with description '{0}' and amount '{1}'")
+    public void registerNewIncome(String description, int amount) {
         transactionPage.clickNewTransaction();
-        transactionPage.selectIncomeType();
-        transactionPage.selectSalaryCategory();
+        transactionPage.selectTypeIncome();
+        transactionPage.selectCategorySalary();
         transactionPage.enterDescription(description);
-        transactionPage.enterAmount(amount);
+        transactionPage.enterAmount(String.valueOf(amount));
         transactionPage.clickCreateTransaction();
     }
 
-    @Step("User verifies income is reflected in the main panel report")
-    public void verifyIncomeIsReflected() {
+    @Step("Navigate back to dashboard")
+    public void navigateToDashboard() {
         dashboardPage.navigateToDashboard();
-        assertTrue(dashboardPage.isReportsHeadingVisible());
-        assertFalse(dashboardPage.getTotalIncomeText().isEmpty());
+    }
+
+    @Step("Get formatted balance from dashboard report")
+    public String getFormattedBalanceAmount() {
+        dashboardPage.clickGenerateReports();
+        return dashboardPage.getBalanceValue();
+    }
+
+    @Step("Format expected amount into Colombian currency")
+    public String formatExpectedAmount(int expectedAmount) {
+        NumberFormat formatter = NumberFormat.getInstance(new Locale("es", "CO"));
+        return formatter.format(expectedAmount);
     }
 }

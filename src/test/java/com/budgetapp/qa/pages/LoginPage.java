@@ -1,11 +1,11 @@
 package com.budgetapp.qa.pages;
 
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-import org.openqa.selenium.support.FindBy;
+import net.serenitybdd.annotations.DefaultUrl;
 
-import java.time.Duration;
-
+@DefaultUrl("page:webdriver.base.url")
 public class LoginPage extends PageObject {
 
     @FindBy(id = "email")
@@ -15,25 +15,24 @@ public class LoginPage extends PageObject {
     private WebElementFacade passwordInput;
 
     @FindBy(css = "button[type='submit']")
-    private WebElementFacade loginButton;
+    private WebElementFacade submitButton;
 
-    @FindBy(css = "[data-sonner-toast][data-type='success']")
-    private WebElementFacade successToast;
+    @FindBy(xpath = "//a[contains(.,'Regístrate aquí')]")
+    private WebElementFacade registerLink;
 
     public void enterEmail(String email) {
-        emailInput.type(email);
+        emailInput.waitUntilVisible().type(email);
     }
 
     public void enterPassword(String password) {
         passwordInput.type(password);
     }
 
-    public void clickLogin() {
-        waitABit(1500);
-        loginButton.click();
+    public void clickSubmit() {
+        submitButton.click();
     }
 
-    public boolean isSuccessToastVisible() {
-        return successToast.waitUntilVisible().isVisible();
+    public void clickRegisterLink() {
+        registerLink.waitUntilClickable().click();
     }
 }

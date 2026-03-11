@@ -1,8 +1,8 @@
 package com.budgetapp.qa.pages;
 
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.core.pages.WebElementFacade;
-import org.openqa.selenium.support.FindBy;
 
 public class TransactionPage extends PageObject {
 
@@ -34,23 +34,18 @@ public class TransactionPage extends PageObject {
     private WebElementFacade createTransactionButton;
 
     public void clickNewTransaction() {
-        newTransactionButton.click();
+        newTransactionButton.waitUntilVisible().click();
         transactionModalTitle.waitUntilVisible();
-        waitABit(1000);
     }
 
-    public void selectIncomeType() {
-        waitFor(typeSelectTrigger).waitUntilPresent();
+    public void selectTypeIncome() {
         evaluateJavascript("arguments[0].click();", typeSelectTrigger);
         incomeOption.waitUntilVisible().click();
-        waitABit(800);
     }
 
-    public void selectSalaryCategory() {
-        waitFor(categorySelectTrigger).waitUntilPresent();
+    public void selectCategorySalary() {
         evaluateJavascript("arguments[0].click();", categorySelectTrigger);
         salaryCategoryOption.waitUntilVisible().click();
-        waitABit(800);
     }
 
     public void enterDescription(String description) {
@@ -58,11 +53,11 @@ public class TransactionPage extends PageObject {
     }
 
     public void enterAmount(String amount) {
+        evaluateJavascript("arguments[0].value='';", amountInput);
         amountInput.type(amount);
     }
 
     public void clickCreateTransaction() {
         createTransactionButton.click();
-        waitABit(1500);
     }
 }
